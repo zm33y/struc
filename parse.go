@@ -161,9 +161,6 @@ func parseFieldsLocked(v reflect.Value) (Fields, error) {
 			}
 			f.Sizefrom = source.Index
 		}
-		if f.Len == -1 && f.Sizefrom == nil {
-			return nil, fmt.Errorf("struc: field `%s` is a slice with no length or sizeof field", field.Name)
-		}
 		// recurse into nested structs
 		// TODO: handle loops (probably by indirecting the []Field and putting pointer in cache)
 		if f.Type == Struct {
