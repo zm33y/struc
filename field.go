@@ -63,7 +63,12 @@ func (f *Field) Size(val reflect.Value, options *Options) int {
 	} else if f.Slice || f.kind == reflect.String {
 		length := val.Len()
 		if f.Len > 1 {
-			length = f.Len
+			if f.Len >= length {
+				length = f.Len
+			} else {
+				// Provided string is too big for the size set in metadata
+				return -1
+			}
 		}
 		size = length * typ.Size()
 	} else {

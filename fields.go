@@ -35,7 +35,11 @@ func (f Fields) Sizeof(val reflect.Value, options *Options) int {
 	size := 0
 	for i, field := range f {
 		if field != nil {
-			size += field.Size(val.Field(i), options)
+			fieldSize := field.Size(val.Field(i), options)
+			if fieldSize < 0 {
+				return -1
+			}
+			size += fieldSize
 		}
 	}
 	return size

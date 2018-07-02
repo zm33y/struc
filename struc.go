@@ -72,6 +72,9 @@ func PackWithOptions(w io.Writer, data interface{}, options *Options) error {
 		val = val.Convert(reflect.TypeOf([]byte{}))
 	}
 	size := packer.Sizeof(val, options)
+	if size < 0 {
+		return fmt.Errorf("Can't pack structure")
+	}
 	buf := make([]byte, size)
 	if _, err := packer.Pack(buf, val, options); err != nil {
 		return err
